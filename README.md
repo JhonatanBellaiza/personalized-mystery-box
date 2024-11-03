@@ -81,6 +81,6 @@ This service combines fashion personalization with the excitement of mystery box
 - **IAM Roles**: Implement strict IAM policies for accessing AWS services and databases
 - **Data Encryption**: Encrypt all databases to protect data at rest
 
-![Architecture Diagram](iamges/diagram.png)
+![Architecture Diagram](iamges/architecture.png)
 
 
