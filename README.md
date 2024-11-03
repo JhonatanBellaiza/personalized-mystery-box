@@ -34,3 +34,53 @@ The pricing reflects a balance between quality and affordability, aimed at fashi
 
 ## Impact
 This service combines fashion personalization with the excitement of mystery boxes. It caters to customers looking for curated, stylish apparel while allowing them to discover new trends and expand their wardrobe monthly.
+
+# Architecture Diagram
+
+## Frontend Layer
+- **Component**: React Application
+- **Hosted on**: AWS S3 and CloudFront (for faster global access)
+- **Connection**: HTTPS to API Gateway
+
+## API Gateway
+- **Purpose**: Manages external access to microservices, including authentication, authorization, and routing
+- **Connection**: Connects to Load Balancer, validates tokens from Authentication Service
+- **Hosted on**: AWS API Gateway
+
+## Authentication Service
+- **Purpose**: Manages user authentication and issues tokens
+- **Hosted on**: JWT-based system on ECS
+- **Connection**: Connected to API Gateway for token validation
+
+## Load Balancer
+- **Component**: AWS Elastic Load Balancer (ELB)
+- **Purpose**: Balances incoming requests across multiple instances of microservices
+- **Connection**: Routes requests to microservices securely using HTTPS
+
+## Microservices Layer
+- **Technologies**: Java Spring Boot
+- **Hosted on**: Docker containers in AWS ECS
+- **Services**:
+  - **User Service**: Handles customer data
+  - **Inventory Service**: Manages product and inventory info
+  - **Order Service**: Manages orders and subscription fulfillment
+- **Connections**: Each service connects to its respective database and can interact with other services as needed
+
+## Database Layer
+- **Components**: RDS for MySQL and DynamoDB (Inventory data)
+- **Hosted on**: AWS RDS, AWS DynamoDB
+- **Connection**: Direct access from microservices; secure using AWS Secrets Manager for credentials
+
+## Management Tools
+- **Admin Dashboard**: Internal tool for viewing and managing customer profiles, order statuses, and inventory
+- **Monitoring and Logging**: CloudWatch
+
+## Connections and Security Details
+- **HTTPS Connections**: Use HTTPS for all external and inter-service communication to ensure encrypted data transfers
+- **Authentication Tokens**: JWT tokens are used for validating each request from API Gateway to secure microservices
+- **IAM Roles**: Implement strict IAM policies for accessing AWS services and databases
+- **Data Encryption**: Encrypt all databases to protect data at rest
+
+![Architecture Diagram](iamges/diagram.png)
+
+
