@@ -94,6 +94,6 @@ This service combines fashion personalization with the excitement of mystery box
 3. **Load Balancer (ELB)** → **Monolithic Backend (Dockerized Java Spring Boot on ECS)**
 4. **Monolithic Backend (Docker)** ↔ **Databases (RDS and DynamoDB)**
 
-![Architecture Diagram](images/architecture.png)
+![Architecture Diagram](images/architecture2.png)
 
 
