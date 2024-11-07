@@ -63,7 +63,9 @@ This service combines fashion personalization with the excitement of mystery box
 - **Components within Backend**:
   - **User Module**: Manages user profiles.
   - **Inventory Module**: Manages product data.
-  - **Order Module**: Handles orders and subscriptions.
+  - **Order Module**: Handles orders.
+  - **Subscription Module**: Handles Subscriptions.
+  - **Billing Module**: Handles Billing module.
   - **Authentication (JWT)**: Validates user authentication using JWT.
 - **Deployment**:
   - Hosted on **AWS ECS (Elastic Container Service)** with Docker containers running the monolithic backend.
