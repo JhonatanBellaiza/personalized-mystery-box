@@ -1,4 +1,4 @@
 package edu.miu.custommysterybox.dto.response;
 
-public record LoginResponseDto(String message, String username) {
+public record LoginResponseDto(String message, String token) {
 }

@@ -12,14 +12,4 @@ import lombok.Setter;
 @AllArgsConstructor
 @DiscriminatorValue("MANAGER")
 public class Manager extends User{
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
 }

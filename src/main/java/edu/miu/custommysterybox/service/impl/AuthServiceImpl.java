@@ -1,10 +1,12 @@
 package edu.miu.custommysterybox.service.impl;
 
+import edu.miu.custommysterybox.config.JwtUtil;
 import edu.miu.custommysterybox.dto.request.LoginRequestDto;
 import edu.miu.custommysterybox.dto.request.RegisterRequestDto;
 import edu.miu.custommysterybox.dto.response.LoginResponseDto;
 import edu.miu.custommysterybox.dto.response.RegisterResponseDto;
 import edu.miu.custommysterybox.model.Customer;
+import edu.miu.custommysterybox.model.Manager;
 import edu.miu.custommysterybox.model.Role;
 import edu.miu.custommysterybox.model.User;
 import edu.miu.custommysterybox.repository.AuthRepository;
@@ -13,6 +15,7 @@ import edu.miu.custommysterybox.repository.ManagerRespository;
 import edu.miu.custommysterybox.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +41,18 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     @Lazy
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+    @Override
+    public Optional<Manager> createManager(Manager manager) {
+        Manager newManager = new Manager();
+        newManager.setUsername(manager.getUsername());
+        newManager.setPassword((passwordEncoder.encode(manager.getPassword())));
+        newManager.setRole(Role.MANAGER);
+
+        return Optional.of(managerRespository.save(newManager));
+    }
+
     @Override
     public Optional<RegisterResponseDto> registerCustomer(RegisterRequestDto registerRequestDto) {
         if (userRepository.findByUsername(registerRequestDto.username()).isPresent()) {
@@ -59,10 +74,20 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     @Override
     public Optional<LoginResponseDto> login(LoginRequestDto loginRequestDTO) {
         Optional<User> userOptional = userRepository.findByUsername(loginRequestDTO.username());
+
+        // Check if user exists and password matches
         if (userOptional.isPresent() && passwordEncoder.matches(loginRequestDTO.password(), userOptional.get().getPassword())) {
-            return Optional.of(new LoginResponseDto("Login successful" ,userOptional.get().getUsername()));
+            User user = userOptional.get();
+
+            // Generate JWT token using JwtUtil
+            String token = jwtUtil.generateToken(user.getUsername());
+
+            // Return message and token in LoginResponseDto
+            return Optional.of(new LoginResponseDto("Login successful", token));
         }
-        return Optional.empty();  // Return empty if login failed
+
+        // Return empty if login failed
+        return Optional.of(new LoginResponseDto("Login failed: Invalid username or password", null));
     }
 
     @Override
