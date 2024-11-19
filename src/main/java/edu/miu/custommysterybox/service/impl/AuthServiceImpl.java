@@ -2,7 +2,7 @@ package edu.miu.custommysterybox.service.impl;
 
 import edu.miu.custommysterybox.config.JwtUtil;
 import edu.miu.custommysterybox.dto.request.LoginRequestDto;
-import edu.miu.custommysterybox.dto.request.RegisterRequestDto;
+import edu.miu.custommysterybox.dto.request.RegisterCustomerRequestDto;
 import edu.miu.custommysterybox.dto.response.LoginResponseDto;
 import edu.miu.custommysterybox.dto.response.RegisterResponseDto;
 import edu.miu.custommysterybox.model.Customer;
@@ -15,7 +15,6 @@ import edu.miu.custommysterybox.repository.ManagerRespository;
 import edu.miu.custommysterybox.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,16 +53,22 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     }
 
     @Override
-    public Optional<RegisterResponseDto> registerCustomer(RegisterRequestDto registerRequestDto) {
-        if (userRepository.findByUsername(registerRequestDto.username()).isPresent()) {
+    public Optional<RegisterResponseDto> registerCustomer(RegisterCustomerRequestDto registerCustomerRequestDto) {
+        if (userRepository.findByUsername(registerCustomerRequestDto.username()).isPresent()) {
             return Optional.empty();  // Return empty if username is already taken
         }
 
         // Map DTO to entity
         Customer customer = new Customer();
-        customer.setUsername(registerRequestDto.username());
-        customer.setPassword(passwordEncoder.encode(registerRequestDto.password()));
+        customer.setUsername(registerCustomerRequestDto.username());
+        customer.setPassword(passwordEncoder.encode(registerCustomerRequestDto.password()));
         customer.setRole(Role.CUSTOMER);
+        customer.setFavoriteColors(registerCustomerRequestDto.favoriteColors());
+        customer.setDislikedColors(registerCustomerRequestDto.dislikedColors());
+        customer.setTopSize(registerCustomerRequestDto.topSize());
+        customer.setBottomSize(registerCustomerRequestDto.bottomSize());
+        customer.setStylePreferences(registerCustomerRequestDto.stylePreferences());
+        customer.setSubscriptionType(registerCustomerRequestDto.subscriptionType());
 
         customerRepository.save(customer);
         System.out.println(customer.getUsername());

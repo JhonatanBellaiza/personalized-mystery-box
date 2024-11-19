@@ -2,11 +2,15 @@ package edu.miu.custommysterybox.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @DiscriminatorValue("CUSTOMER")
@@ -16,7 +20,8 @@ public class Customer extends User{
     private List<String> favoriteColors;
     @ElementCollection
     private List<String> dislikedColors;
-    private String preferredFit;
+    private String topSize;
+    private String bottomSize;
     @ElementCollection
     private List<String> stylePreferences;
 

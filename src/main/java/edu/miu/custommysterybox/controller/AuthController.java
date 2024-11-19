@@ -1,7 +1,7 @@
 package edu.miu.custommysterybox.controller;
 
 import edu.miu.custommysterybox.dto.request.LoginRequestDto;
-import edu.miu.custommysterybox.dto.request.RegisterRequestDto;
+import edu.miu.custommysterybox.dto.request.RegisterCustomerRequestDto;
 import edu.miu.custommysterybox.dto.response.LoginResponseDto;
 import edu.miu.custommysterybox.dto.response.RegisterResponseDto;
 import edu.miu.custommysterybox.service.AuthService;
@@ -32,7 +32,7 @@ public class AuthController {
 
     // Endpoint for user registration
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponseDto> register(@RequestBody RegisterRequestDto registerCustomerDTO) {
+    public ResponseEntity<RegisterResponseDto> register(@RequestBody RegisterCustomerRequestDto registerCustomerDTO) {
         // Call service to register and return Optional response
         return authService.registerCustomer(registerCustomerDTO)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))  // If registration is successful, return 201 Created
