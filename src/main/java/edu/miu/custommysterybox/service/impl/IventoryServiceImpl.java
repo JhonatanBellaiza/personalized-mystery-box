@@ -9,8 +9,10 @@ import edu.miu.custommysterybox.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +36,52 @@ public class IventoryServiceImpl implements InventoryService {
         Item savedItem = inventoryRepository.save(newItem);
 
         //Construct ItemResponseDto object
-        ItemResponseDto itemResponseDto = new ItemResponseDto(savedItem.getId(), savedItem.getName(), savedItem.getDescription(), savedItem.getPrice(), savedItem.getColor(), savedItem.getType(), savedItem.getQuantity());
+        ItemResponseDto itemResponseDto = new ItemResponseDto(savedItem.getId(), savedItem.getName(),
+                savedItem.getDescription(), savedItem.getPrice(), savedItem.getColor(),
+                savedItem.getType(), savedItem.getQuantity());
 
         return Optional.of(itemResponseDto);
+    }
+
+    @Override
+    public Optional<List<ItemResponseDto>> createAllitems(List<ItemRequestDto> items) {
+        // Check if the input list is empty
+        if (items == null || items.isEmpty()) {
+            return Optional.empty();
+        }
+
+        // Create a list to hold the saved Item entities
+        List<Item> newItems = new ArrayList<>();
+
+        // Convert each ItemRequestDto to an Item and add to the list
+        for (ItemRequestDto itemRequestDto : items) {
+            Item newItem = new Item();
+            newItem.setName(itemRequestDto.name());
+            newItem.setColor(itemRequestDto.color());
+            newItem.setDescription(itemRequestDto.description());
+            newItem.setPrice(itemRequestDto.price());
+            newItem.setType(itemRequestDto.type());
+            newItem.setQuantity(itemRequestDto.quantity());
+
+            newItems.add(newItem);
+        }
+
+        // Save all items in bulk
+        List<Item> savedItems = inventoryRepository.saveAll(newItems);
+
+        // Convert the saved items into ItemResponseDto objects
+        List<ItemResponseDto> responseDtos = savedItems.stream()
+                .map(savedItem -> new ItemResponseDto(
+                        savedItem.getId(),
+                        savedItem.getName(),
+                        savedItem.getDescription(),
+                        savedItem.getPrice(),
+                        savedItem.getColor(),
+                        savedItem.getType(),
+                        savedItem.getQuantity()))
+                .collect(Collectors.toList());
+
+        return Optional.of(responseDtos);
     }
 
     @Override
@@ -46,7 +91,24 @@ public class IventoryServiceImpl implements InventoryService {
 
     @Override
     public Optional<List<ItemResponseDto>> getAllItems() {
-        return Optional.empty();
+
+        List<Item> items = inventoryRepository.findAll();
+
+        if (items.isEmpty()) return Optional.empty();
+
+        List<ItemResponseDto> itemResponseDtos = items.stream()
+                .map(item -> new ItemResponseDto(
+                        item.getId(),
+                        item.getName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getColor(),
+                        item.getType(),
+                        item.getQuantity()
+
+                )).collect(Collectors.toList());
+
+        return Optional.of(itemResponseDtos);
     }
 
     @Override

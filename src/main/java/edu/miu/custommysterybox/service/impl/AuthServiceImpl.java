@@ -64,7 +64,6 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         customer.setPassword(passwordEncoder.encode(registerCustomerRequestDto.password()));
         customer.setRole(Role.CUSTOMER);
         customer.setFavoriteColors(registerCustomerRequestDto.favoriteColors());
-        customer.setDislikedColors(registerCustomerRequestDto.dislikedColors());
         customer.setTopSize(registerCustomerRequestDto.topSize());
         customer.setBottomSize(registerCustomerRequestDto.bottomSize());
         customer.setStylePreferences(registerCustomerRequestDto.stylePreferences());

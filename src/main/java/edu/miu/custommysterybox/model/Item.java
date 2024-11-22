@@ -25,6 +25,9 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemType type;
 
+    @Enumerated(EnumType.STRING)
+    private StyleType style;
+
     private int quantity;
 
     @ManyToOne

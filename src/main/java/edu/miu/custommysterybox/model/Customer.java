@@ -18,8 +18,6 @@ public class Customer extends User{
 
     @ElementCollection
     private List<String> favoriteColors;
-    @ElementCollection
-    private List<String> dislikedColors;
     private String topSize;
     private String bottomSize;
     @ElementCollection

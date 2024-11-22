@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface InventoryService {
     Optional<ItemResponseDto> createItem(ItemRequestDto item);
+    Optional<List<ItemResponseDto>> createAllitems(List<ItemRequestDto> items);
     Optional<ItemResponseDto> updateItem(ItemRequestDto item);
     Optional<List<ItemResponseDto>> getAllItems();
     Optional<List<ItemResponseDto>> findAllItemsByName(String name);
