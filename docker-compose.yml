@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mysterybox_app
+    ports:
+      - "8080:8080" # Maps app container's port 8080 to host's port 8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://mysterybox_db:5432/mysterybox
+      SPRING_DATASOURCE_USERNAME: userdemo
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - db
+    volumes:
+      - ./logs:/app/logs
+
+  db:
+    image: postgres:15
+    container_name: mysterybox_db
+    environment:
+#      POSTGRES_USER: userdemo
+      SPRING_PROFILES_ACTIVE: dev
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: mysterybox
+    ports:
+      - "5433:5432" # Maps database port 5432 to the host's port
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
