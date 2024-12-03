@@ -35,6 +35,67 @@ The pricing reflects a balance between quality and affordability, aimed at fashi
 ## Impact
 This service combines fashion personalization with the excitement of mystery boxes. It caters to customers looking for curated, stylish apparel while allowing them to discover new trends and expand their wardrobe monthly.
 
+# Requirements Analysis
+
+## Functional Requirements
+These define the specific features and operations the system must perform:
+
+### Customer Features
+#### Registration and Profile Management:
+- Customers register with email credentials.
+- Fill out a style questionnaire (favorite colors, disliked colors, preferred fits, personal style preferences).
+
+#### Subscription Management:
+- Choose one of the three membership tiers:
+  - **Upper Body Box**
+  - **Lower Body Box**
+  - **Full Combo Box**
+- View, renew, or cancel subscriptions.
+
+#### Order Management:
+- View monthly curated box details (after shipment).
+- View order history.
+- Update style preferences at any time.
+
+### Manager Features
+#### Customer Management:
+- View, edit, and deactivate customer profiles.
+- Assist customers in updating their preferences or subscriptions.
+
+#### Inventory Management:
+- Monitor inventory levels to ensure items are available for monthly curation.
+- Add new inventory items with attributes (type, size, color, style tags).
+
+#### Curated Box Management:
+- Review automated box content before approval.
+- Modify curated items if needed.
+
+#### Order Fulfillment:
+- Mark orders as shipped.
+- Manage tracking numbers and monitor delivery status.
+
+---
+
+## 2. Non-Functional Requirements
+These address the system's performance, usability, and scalability:
+
+### Performance:
+- The system should handle concurrent users (1000+ active users at peak).
+- Monthly curation must process boxes for all customers within a 1-hour batch job.
+
+### Scalability:
+- Accommodate future growth to 10,000+ users.
+- Support adding new subscription tiers or customization options.
+
+### Reliability:
+- Maintain 99.9% uptime.
+- Secure database backups to prevent data loss.
+
+### Security:
+- Implement Spring Security for user authentication and role-based access control (RBAC).
+- Use HTTPS for secure data transmission.
+- 
+
 # Architecture Diagram - Monolythic Architecture
 
 ## 1. Frontend Layer
