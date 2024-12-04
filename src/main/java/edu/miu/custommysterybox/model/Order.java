@@ -29,6 +29,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private SubscriptionType subscriptionType;
 
-    private Double totalPrice;
+    private double totalPrice;
 }
 

@@ -25,10 +25,10 @@ public class CustomMysteryBoxApplication {
 
             //Load Manager
 
-//            Manager manager = new Manager();
-//            manager.setUsername("admin");
-//            manager.setPassword("admin");
-//            authService.createManager(manager);
+            Manager manager = new Manager();
+            manager.setUsername("admin");
+            manager.setPassword("admin");
+            authService.createManager(manager);
 
         };
     }
