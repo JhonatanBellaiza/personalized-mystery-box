@@ -100,7 +100,9 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setCustomer(customer);
         newOrder.setOrderDate(requestDto.localDate());
         newOrder.setShipped(requestDto.isShipped());
-        newOrder.setItems(selectedItems);
+        for(Item item : selectedItems) {
+            newOrder.addItem(item);
+        }
         newOrder.setSubscriptionType(customer.getSubscriptionType());
         newOrder.setTotalPrice(calculateTotalPrice(selectedItems));
 

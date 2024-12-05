@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,7 +34,7 @@ public class Item {
     private int quantity;
 
     @ManyToMany(mappedBy = "items")
-    private List<Order> order;
+    private List<Order> order = new ArrayList<>();
 
     public Item(String name, String description, double price, String color, ItemType type, int quantity, StyleType styleType) {
         this.name = name;

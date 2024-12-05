@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -30,11 +31,18 @@ public class Order {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private SubscriptionType subscriptionType;
 
     private double totalPrice;
+
+    public void addItem(Item item) {
+        if(this.items == null) {
+            this.items = new ArrayList<>();
+        }
+        this.items.add(item);
+    }
 }
 
