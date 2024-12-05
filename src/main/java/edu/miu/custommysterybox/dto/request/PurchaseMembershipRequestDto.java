@@ -7,8 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 public record PurchaseMembershipRequestDto(
-        @NotBlank(message = "Username is required")
-        String username,
+        @NotBlank(message = "email is required")
+        String email,
         @NotBlank(message = "At least one color is required")
         List<String> favoriteColors,
         @NotBlank(message = "Size is required")
@@ -19,5 +19,6 @@ public record PurchaseMembershipRequestDto(
         List<String> stylePreferences,
         @NotBlank(message = "Subscription is required")
         SubscriptionType subscriptionType
+
 ) {
 }

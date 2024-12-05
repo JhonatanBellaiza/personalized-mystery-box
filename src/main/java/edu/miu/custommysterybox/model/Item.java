@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -30,16 +32,16 @@ public class Item {
 
     private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @ManyToMany(mappedBy = "items")
+    private List<Order> order;
 
-    public Item(String name, String description, double price, String color, ItemType type, int quantity) {
+    public Item(String name, String description, double price, String color, ItemType type, int quantity, StyleType styleType) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.color = color;
         this.type = type;
         this.quantity=quantity;
+        this.style = styleType;
     }
 }

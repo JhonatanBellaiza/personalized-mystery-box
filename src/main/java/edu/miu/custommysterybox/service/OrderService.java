@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface OrderService {
 
-    Optional<GenerateOrderResponseDto> generateOrderResponseDto(GenerateOrderRequestDto generateOrderRequetDto);
+    Optional<GenerateOrderResponseDto> generateOrder(GenerateOrderRequestDto generateOrderRequetDto);
 }

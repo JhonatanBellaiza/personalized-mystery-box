@@ -6,6 +6,7 @@ import edu.miu.custommysterybox.dto.response.PurchaseMembershipResponseDto;
 import java.util.Optional;
 
 public interface CustomerService {
+    Optional<PurchaseMembershipResponseDto> chargeCustomerPreferences(PurchaseMembershipRequestDto purchaseMembershipRequestDto);
     Optional<PurchaseMembershipResponseDto> updateCustomerPreferences(PurchaseMembershipRequestDto purchaseMembershipRequestDto);
 
 }

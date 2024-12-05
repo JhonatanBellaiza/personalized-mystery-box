@@ -11,16 +11,10 @@ import java.util.List;
 
 public record GenerateOrderRequestDto(
         @NotBlank(message = "Customer is required")
-        Customer customer,
+        String email,
         @NotBlank(message = "Date is required")
         LocalDate localDate,
         @NotBlank(message = "field required")
-        boolean isShipped,
-        @NotBlank(message = "At least one Item is required")
-        List<Item> items,
-        @NotBlank(message = "Subscription type is required")
-        SubscriptionType subscriptionType,
-        @NotBlank(message = "quantity is required")
-        double totalPrice
+        boolean isShipped
 ) {
 }

@@ -31,6 +31,7 @@ public class IventoryServiceImpl implements InventoryService {
         newItem.setPrice(itemRequestDto.price());
         newItem.setType(itemRequestDto.type());
         newItem.setQuantity(itemRequestDto.quantity());
+        newItem.setStyle(itemRequestDto.styleType());
 
         //save item
         Item savedItem = inventoryRepository.save(newItem);
@@ -38,7 +39,7 @@ public class IventoryServiceImpl implements InventoryService {
         //Construct ItemResponseDto object
         ItemResponseDto itemResponseDto = new ItemResponseDto(savedItem.getId(), savedItem.getName(),
                 savedItem.getDescription(), savedItem.getPrice(), savedItem.getColor(),
-                savedItem.getType(), savedItem.getQuantity());
+                savedItem.getType(), savedItem.getQuantity(), savedItem.getStyle());
 
         return Optional.of(itemResponseDto);
     }
@@ -62,6 +63,7 @@ public class IventoryServiceImpl implements InventoryService {
             newItem.setPrice(itemRequestDto.price());
             newItem.setType(itemRequestDto.type());
             newItem.setQuantity(itemRequestDto.quantity());
+            newItem.setStyle(itemRequestDto.styleType());
 
             newItems.add(newItem);
         }
@@ -78,7 +80,8 @@ public class IventoryServiceImpl implements InventoryService {
                         savedItem.getPrice(),
                         savedItem.getColor(),
                         savedItem.getType(),
-                        savedItem.getQuantity()))
+                        savedItem.getQuantity(),
+                        savedItem.getStyle()))
                 .collect(Collectors.toList());
 
         return Optional.of(responseDtos);
@@ -104,7 +107,8 @@ public class IventoryServiceImpl implements InventoryService {
                         item.getPrice(),
                         item.getColor(),
                         item.getType(),
-                        item.getQuantity()
+                        item.getQuantity(),
+                        item.getStyle()
 
                 )).collect(Collectors.toList());
 

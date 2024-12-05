@@ -8,10 +8,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record GenerateOrderResponseDto(
-        Customer customer,
+        String username,
         LocalDate localDate,
         boolean isShipped,
-        List<Item> items,
+        List<ItemResponseDto> items,
         SubscriptionType subscriptionType,
         double totalPrice
 ) {

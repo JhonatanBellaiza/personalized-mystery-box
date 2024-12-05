@@ -6,10 +6,7 @@ import edu.miu.custommysterybox.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -20,18 +17,40 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @PatchMapping("/update-preferences")
-    public ResponseEntity<PurchaseMembershipResponseDto> updateCustomerPreferences(
+    /**
+     * Endpoint to charge customer preferences (new purchase).
+     *
+     * @param purchaseMembershipRequestDto Request DTO containing preferences
+     * @return ResponseEntity with the response DTO or a 404 status if the customer is not found
+     */
+    @PostMapping("/charge-preferences")
+    public ResponseEntity<PurchaseMembershipResponseDto> chargeCustomerPreferences(
             @RequestBody PurchaseMembershipRequestDto purchaseMembershipRequestDto) {
 
         // Call the service method to perform the partial update
         Optional<PurchaseMembershipResponseDto> updatedCustomer =
-                customerService.updateCustomerPreferences(purchaseMembershipRequestDto);
+                customerService.chargeCustomerPreferences(purchaseMembershipRequestDto);
 
         return updatedCustomer.map(purchaseMembershipResponseDto ->
                 new ResponseEntity<>(purchaseMembershipResponseDto, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
+    }
+
+    /**
+     * Endpoint to update customer preferences partially.
+     *
+     * @param purchaseMembershipRequestDto Request DTO containing preferences
+     * @return ResponseEntity with the response DTO or a 404 status if the customer is not found
+     */
+    @PatchMapping("/update-preferences")
+    public ResponseEntity<PurchaseMembershipResponseDto> updateCustomerPreferences(
+            @RequestBody PurchaseMembershipRequestDto purchaseMembershipRequestDto) {
+
+        Optional<PurchaseMembershipResponseDto> response = customerService.updateCustomerPreferences(purchaseMembershipRequestDto);
+
+        return response.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
 

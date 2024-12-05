@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 public record LoginRequestDto(
         @NotBlank(message = "blank - null- empty are not accepted")
-        String username,
+        String email,
         @Size(min = 3, max = 10)
         String password
 ) {

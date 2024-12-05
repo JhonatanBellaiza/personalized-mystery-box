@@ -1,6 +1,7 @@
 package edu.miu.custommysterybox.dto.request;
 
 import edu.miu.custommysterybox.model.ItemType;
+import edu.miu.custommysterybox.model.StyleType;
 import jakarta.validation.constraints.NotBlank;
 
 public record ItemRequestDto(
@@ -15,7 +16,9 @@ public record ItemRequestDto(
         @NotBlank(message = "type is required")
         ItemType type,
         @NotBlank(message = "quantity is required")
-        int quantity
+        int quantity,
+        @NotBlank(message = "Style is required")
+        StyleType styleType
 
 ) {
 }

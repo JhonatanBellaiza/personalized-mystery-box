@@ -61,13 +61,10 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         // Map DTO to entity
         Customer customer = new Customer();
         customer.setUsername(registerCustomerRequestDto.username());
+        customer.setEmail(registerCustomerRequestDto.email());
         customer.setPassword(passwordEncoder.encode(registerCustomerRequestDto.password()));
         customer.setRole(Role.CUSTOMER);
-        customer.setFavoriteColors(registerCustomerRequestDto.favoriteColors());
-        customer.setTopSize(registerCustomerRequestDto.topSize());
-        customer.setBottomSize(registerCustomerRequestDto.bottomSize());
-        customer.setStylePreferences(registerCustomerRequestDto.stylePreferences());
-        customer.setSubscriptionType(registerCustomerRequestDto.subscriptionType());
+        customer.setAddress(registerCustomerRequestDto.address());
 
         customerRepository.save(customer);
         System.out.println(customer.getUsername());
@@ -77,7 +74,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Override
     public Optional<LoginResponseDto> login(LoginRequestDto loginRequestDTO) {
-        Optional<User> userOptional = userRepository.findByUsername(loginRequestDTO.username());
+        Optional<User> userOptional = userRepository.findByEmail(loginRequestDTO.email());
 
         // Check if user exists and password matches
         if (userOptional.isPresent() && passwordEncoder.matches(loginRequestDTO.password(), userOptional.get().getPassword())) {
