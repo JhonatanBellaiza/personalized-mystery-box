@@ -157,6 +157,13 @@ These address the system's performance, usability, and scalability:
 
 ![Architecture Diagram](images/architecture2.png)
 
+# Software Modeling
+
+## Class Diagram
+![User](images/user.png)
+![Oder](images/order.png)
+![Item](images/item.png)
+
 ## ER Diagram
 ![ER Diagram](images/ER-Diagram.png)
 
