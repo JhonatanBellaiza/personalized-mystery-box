@@ -157,4 +157,7 @@ These address the system's performance, usability, and scalability:
 
 ![Architecture Diagram](images/architecture2.png)
 
+## ER Diagram
+![ER Diagram](images/ER-Diagram.png)
+
 
