@@ -66,10 +66,6 @@ These define the specific features and operations the system must perform:
 - Monitor inventory levels to ensure items are available for monthly curation.
 - Add new inventory items with attributes (type, size, color, style tags).
 
-#### Curated Box Management:
-- Review automated box content before approval.
-- Modify curated items if needed.
-
 #### Order Fulfillment:
 - Mark orders as shipped.
 - Manage tracking numbers and monitor delivery status.
