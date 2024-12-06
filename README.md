@@ -1,4 +1,4 @@
-# Project Statement: Personalized Clothing Mystery Box Subscription Service
+# Project Statement: Custom Clothing Mystery Box Subscription Service
 
 ## Objective
 To create a web platform that provides a subscription-based mystery box service, offering personalized clothing selections based on each customer’s style preferences. The service will feature three membership levels, enabling customers to receive monthly shipments of curated clothing items and accessories.
