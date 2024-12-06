@@ -143,6 +143,96 @@ public class OrderServiceImpl implements OrderService {
         return Optional.of(responseDto);
     }
 
+    @Override
+    public Optional<GenerateOrderResponseDto> getLastPurchasedBox(Long id) {
+        // Find the customer by email
+        Optional<Customer> optCustomer = customerRepository.findById(id);
+        if (optCustomer.isEmpty()) {
+            throw new IllegalArgumentException("Customer not found");
+        }
+
+        Customer customer = optCustomer.get();
+
+        // Find the last order
+        Optional<Order> lastOrder = customer.getOrders().stream()
+                .max((o1, o2) -> o1.getOrderDate().compareTo(o2.getOrderDate()));
+
+        if (lastOrder.isEmpty()) {
+            return Optional.empty(); // No orders for this customer
+        }
+
+        Order order = lastOrder.get();
+
+        // Map items to ItemResponseDto
+        List<ItemResponseDto> itemResponseDtos = order.getItems().stream()
+                .map(item -> new ItemResponseDto(
+                        item.getId(),
+                        item.getName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getColor(),
+                        item.getType(),
+                        item.getQuantity(),
+                        item.getStyle()))
+                .collect(Collectors.toList());
+
+        // Create Response DTO
+        GenerateOrderResponseDto responseDto = new GenerateOrderResponseDto(
+                customer.getUsername(),
+                order.getOrderDate(),
+                order.isShipped(),
+                itemResponseDtos,
+                order.getSubscriptionType(),
+                order.getTotalPrice()
+        );
+
+        return Optional.of(responseDto);
+    }
+
+
+    @Override
+    public Optional<List<GenerateOrderResponseDto>> getOrderHistory(Long id) {
+        // Find the customer by email
+        Optional<Customer> optCustomer = customerRepository.findById(id);
+        if (optCustomer.isEmpty()) {
+            throw new IllegalArgumentException("Customer not found");
+        }
+
+        Customer customer = optCustomer.get();
+
+        // Map orders to GenerateOrderResponseDto
+        List<GenerateOrderResponseDto> orderHistory = customer.getOrders().stream()
+                .map(order -> {
+                    List<ItemResponseDto> itemResponseDtos = order.getItems().stream()
+                            .map(item -> new ItemResponseDto(
+                                    item.getId(),
+                                    item.getName(),
+                                    item.getDescription(),
+                                    item.getPrice(),
+                                    item.getColor(),
+                                    item.getType(),
+                                    item.getQuantity(),
+                                    item.getStyle()))
+                            .collect(Collectors.toList());
+
+                    return new GenerateOrderResponseDto(
+                            customer.getUsername(),
+                            order.getOrderDate(),
+                            order.isShipped(),
+                            itemResponseDtos,
+                            order.getSubscriptionType(),
+                            order.getTotalPrice()
+                    );
+                })
+                .sorted((o1, o2) -> o2.orderDate().compareTo(o1.orderDate())) // Sort by date descending
+                .collect(Collectors.toList());
+
+        return Optional.of(orderHistory);
+    }
+
+
+
+
     // Helper Method for Total Price Calculation
     private double calculateTotalPrice(List<Item> items) {
         return items.stream().mapToDouble(Item::getPrice).sum();

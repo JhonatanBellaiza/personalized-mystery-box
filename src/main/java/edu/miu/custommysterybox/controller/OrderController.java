@@ -7,11 +7,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -37,5 +35,38 @@ public class OrderController {
         return generatedOrder.map(orderResponseDto ->
                         new ResponseEntity<>(orderResponseDto, HttpStatus.CREATED))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST)); // Return 400 if order could not be generated
+    }
+    /**
+     * Endpoint to retrieve the last purchased box for a customer.
+     *
+     * @param id The customer's id.
+     * @return ResponseEntity containing the details of the last purchased box.
+     */
+    @GetMapping("/{id}/last-box")
+    public ResponseEntity<GenerateOrderResponseDto> getLastPurchasedBox(@PathVariable Long id) {
+
+        Optional<GenerateOrderResponseDto> lastBox = orderService.getLastPurchasedBox(id);
+
+        return lastBox.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    /**
+     * Endpoint to retrieve the order history for a customer.
+     *
+     * @param id The customer's id.
+     * @return ResponseEntity containing the list of orders.
+     */
+    @GetMapping("/{id}/order-history")
+    public ResponseEntity<List<GenerateOrderResponseDto>> getOrderHistory(@PathVariable Long id) {
+
+
+        List<GenerateOrderResponseDto> orderHistory = orderService.getOrderHistory(id).get();
+
+        if (orderHistory.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(orderHistory);
     }
 }
