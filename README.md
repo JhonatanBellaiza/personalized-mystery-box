@@ -195,85 +195,100 @@ This guide outlines the steps to run your project locally and in the cloud.
    
 2. **Install Dependencies:**
 
-   Navigate to the project directory and run:
-   '''bash
+   -Navigate to the project directory and run:
+   ```bash
    mvn clean install
    Run PostgreSQL:
 
 3. **Ensure PostgreSQL is running, and the database is accessible at the URL specified in your application.properties.**
-   Start the Application:
+   -Start the Application:
 
-Run the application:
-bash
-Copy code
-mvn spring-boot:run
+   -Run the application:
+   ```bash
+   mvn spring-boot:run
+   
 The application will start on the default port (usually http://localhost:8080).
-Test with Postman:
 
-4. **Use Postman to test endpoints, e.g., user registration, login, and subscription creation.**
+4. **Test with Postman:**
+
+   -Use Postman to test endpoints, e.g., user registration, login, and subscription creation.
 
 ## **Running the Project in the Cloud**
-Prerequisites
-AWS Account:
-Log in to your AWS Management Console.
-Docker:
-Install Docker and configure it with your AWS CLI credentials.
-AWS Services:
-Set up the following:
-AWS ECS: For deploying your Dockerized application.
-AWS RDS: For your PostgreSQL database.
-AWS S3/CloudFront: For hosting the React frontend (optional).
-Environment Variables:
-Configure environment variables in the ECS task definition:
-properties
-Copy code
-spring.datasource.url=jdbc:postgresql://<rds-endpoint>:5432/mysterybox
-spring.datasource.username=<your_rds_username>
-spring.datasource.password=<your_rds_password>
-spring.jpa.hibernate.ddl-auto=update
-jwt.secret=<your_jwt_secret>
-Steps
-Create and Push Docker Image:
 
-Build the Docker image:
-bash
-Copy code
-docker build -t mysterybox-service .
-Tag the image for ECR:
-bash
-Copy code
-docker tag mysterybox-service:latest <your_ecr_repository>:latest
-Push the image to ECR:
-bash
-Copy code
-docker push <your_ecr_repository>:latest
-Set Up RDS Database:
+### **Prerequisites**
 
-Create a PostgreSQL instance in AWS RDS.
-Note the endpoint, username, and password.
-Deploy to ECS:
+1. **AWS Account:**
+   - Log in to your AWS Management Console.
+   - [Sign up for AWS](https://aws.amazon.com/)
 
-Create an ECS cluster.
-Define a new task with the following configurations:
-Container Image: <your_ecr_repository>:latest
-Environment Variables: Add the variables mentioned above.
-Port Mappings: Map port 8080.
-Run the task in the cluster.
-Test the Cloud Deployment:
+2. **Docker:**
+   - Install Docker and configure it with your AWS CLI credentials.
+   - [Download Docker](https://www.docker.com/products/docker-desktop)
 
-Use the public IP or DNS of the ECS service to test your application.
-Example:
-Endpoint: http://<ecs-public-ip>:8080/api/login
-Body (JSON):
-json
-Copy code
-{
-  "username": "user@example.com",
-  "password": "password123"
-}
-Monitor and Debug:
+3. **AWS Services:**
+   - Set up the following:
+     - **AWS ECS**: For deploying your Dockerized application.
+     - **AWS RDS**: For your PostgreSQL database.
+     - **AWS S3/CloudFront**: For hosting the React frontend (optional).
 
-Use CloudWatch Logs to view logs from your ECS tasks.
-Ensure the RDS instance security group allows connections from ECS.
+4. **Environment Variables:**
+   - Configure environment variables in the ECS task definition:
+     ```properties
+     spring.datasource.url=jdbc:postgresql://<rds-endpoint>:5432/mysterybox
+     spring.datasource.username=<your_rds_username>
+     spring.datasource.password=<your_rds_password>
+     spring.jpa.hibernate.ddl-auto=update
+     jwt.secret=<your_jwt_secret>
+     ```
 
+### **Steps**
+
+1. **Create and Push Docker Image:**
+
+   - Build the Docker image:
+     ```bash
+     docker build -t mysterybox-service .
+     ```
+
+   - Tag the image for ECR:
+     ```bash
+     docker tag mysterybox-service:latest <your_ecr_repository>:latest
+     ```
+
+   - Push the image to ECR:
+     ```bash
+     docker push <your_ecr_repository>:latest
+     ```
+
+2. **Set Up RDS Database:**
+
+   - Create a PostgreSQL instance in AWS RDS.
+   - Note the endpoint, username, and password.
+
+3. **Deploy to ECS:**
+
+   - Create an ECS cluster.
+   - Define a new task with the following configurations:
+     - **Container Image**: `<your_ecr_repository>:latest`
+     - **Environment Variables**: Add the variables mentioned above.
+     - **Port Mappings**: Map port 8080.
+   - Run the task in the cluster.
+
+4. **Test the Cloud Deployment:**
+
+   - Use the public IP or DNS of the ECS service to test your application.
+     Example:
+     - Endpoint: `http://<ecs-public-ip>:8080/api/login`
+     - Body (JSON):
+       ```json
+       {
+         "username": "user@example.com",
+         "password": "password123"
+       }
+       ```
+
+5. **Monitor and Debug:**
+
+   - Use **CloudWatch Logs** to view logs from your ECS tasks.
+   - Ensure the **RDS instance security group** allows connections from ECS.
 
